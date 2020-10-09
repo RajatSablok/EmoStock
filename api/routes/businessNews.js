@@ -1,10 +1,16 @@
 const express = require("express");
 const request = require("request");
 const cheerio = require("cheerio");
+const NewsAPI = require("newsapi");
+
+require("dotenv").config();
 
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
+const newsapi = new NewsAPI(process.env.NEWS_APIKEY);
+
+//Get all business news
+router.get("/all", (req, res, next) => {
   request("https://inshorts.com/en/read/business", (error, response, html) => {
     if (!error && response.statusCode == 200) {
       var titleArray = [];
@@ -92,6 +98,27 @@ router.get("/", (req, res, next) => {
       });
     }
   });
+});
+
+//Get news by keyword -- related news
+router.get("/", async (req, res) => {
+  const { keyword } = req.query;
+  newsapi.v2
+    .topHeadlines({
+      q: keyword,
+      category: "business",
+      language: "en",
+      country: "in",
+    })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: "Something went wrong",
+        error: err.toString(),
+      });
+    });
 });
 
 module.exports = router;
