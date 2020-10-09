@@ -16,16 +16,15 @@ const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
 
 //Analyze a news
 router.post("/", async (req, res) => {
-  const { url } = req.body;
+  const { title, news, imageURL, date, time, inshortslink } = req.body;
   const analyzeParams = {
-    url,
+    url: inshortslink,
     features: {
       entities: {
-        limit: 5,
+        limit: 3,
         sentiment: true,
         relevance: true,
         count: true,
-        mentions: false,
       },
       keywords: {
         sentiment: true,
@@ -43,8 +42,14 @@ router.post("/", async (req, res) => {
       let result = {
         entities,
         keywords,
+        title,
+        news,
+        imageURL,
+        date,
+        time,
+        inshortslink,
       };
-      res.status(200).json(result, null, 2);
+      res.status(200).json(result);
     })
     .catch((err) => {
       res.status(500).json({

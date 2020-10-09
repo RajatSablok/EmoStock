@@ -72,10 +72,10 @@ router.get("/", (req, res, next) => {
         resultObj.push({
           title: titleArray[i],
           news: contentArray[i],
-          "image url": image[i],
+          imageURL: image[i],
           date: date[i],
           time: time[i],
-          inshortlink: "https://inshorts.com" + inlinks[i],
+          inshortslink: "https://inshorts.com" + inlinks[i],
         });
       }
 
