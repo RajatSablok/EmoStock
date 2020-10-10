@@ -1,9 +1,26 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
+
+//Require Atlas database URI from environment variables
+const DBURI = process.env.DBURI;
+
+//Connect to MongoDB client using mongoose
+mongoose
+  .connect(DBURI, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Database Connected"))
+  .catch((err) => console.log(err));
+
+mongoose.Promise = global.Promise;
 
 //Use helmet to prevent common security vulnerabilities
 app.use(helmet());
@@ -35,6 +52,7 @@ app.use(cors());
 app.use("/news/business", require("./api/routes/businessNews"));
 app.use("/analyze", require("./api/routes/analyze"));
 app.use("/report", require("./api/routes/report"));
+app.use("/user", require("./api/routes/user"));
 
 //This function will give a 404 response if an undefined API endpoint is fired
 app.use((req, res, next) => {
