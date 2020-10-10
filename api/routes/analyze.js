@@ -4,7 +4,7 @@ const { IamAuthenticator } = require("ibm-watson/auth");
 
 require("dotenv").config();
 
-const countries = require("../../assets/companies.json");
+const companies = require("../../assets/companies.json");
 
 const router = express.Router();
 
@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
     .then((analysisResults) => {
       let entities = analysisResults.result.entities;
 
-      //Store entities of type company in entititesArr
+      //Store entities of type company in entitiesArr
       for (i in entities) {
         if (entities[i].type == "Company") {
           entitiesArr.push(entities[i]);
@@ -49,13 +49,13 @@ router.post("/", async (req, res) => {
       }
 
       //Map company name with stock
-      for (i in countries) {
+      for (i in companies) {
         for (j in entitiesArr) {
           if (
-            countries[i]["Company Name"].includes(entitiesArr[j].text) ||
-            countries[i]["Symbol"].includes(entitiesArr[j].text)
+            companies[i]["Company Name"].includes(entitiesArr[j].text) ||
+            companies[i]["Symbol"].includes(entitiesArr[j].text)
           ) {
-            companyArr.push(countries[i]);
+            companyArr.push(companies[i]);
           }
         }
       }
@@ -79,6 +79,58 @@ router.post("/", async (req, res) => {
         message: "Something went wrong",
         error: err,
         errmsg: err.toString(),
+      });
+    });
+});
+
+//Analyze all news
+router.post("/all", async (req, res) => {
+  let entitiesArr = [];
+  let companyArr = [];
+
+  const analyzeParams = {
+    url: "https://inshorts.com/en/read/business",
+    features: {
+      entities: {
+        limit: 200,
+        sentiment: true,
+      },
+    },
+  };
+
+  //Analyze news
+  naturalLanguageUnderstanding
+    .analyze(analyzeParams)
+    .then((analysisResults) => {
+      const entities = analysisResults.result.entities;
+      for (i in entities) {
+        if (entities[i].type == "Company" && entities[i].sentiment.score != 0) {
+          entitiesArr.push(entities[i]);
+        }
+      }
+
+      for (i in companies) {
+        for (j in entitiesArr) {
+          if (
+            companies[i]["Company Name"].includes(entitiesArr[j].text) ||
+            companies[i]["Symbol"].includes(entitiesArr[j].text)
+          ) {
+            let obj = {};
+            obj.companyName = companies[i]["Company Name"];
+            obj.symbol = companies[i]["Symbol"];
+            obj.sentiment = entitiesArr[j].sentiment;
+            companyArr.push(obj);
+          }
+        }
+      }
+
+      res.status(200).json({
+        companies: companyArr,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({
+        error: err.toString(),
       });
     });
 });

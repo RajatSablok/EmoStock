@@ -53,6 +53,7 @@ app.use("/news/business", require("./api/routes/businessNews"));
 app.use("/analyze", require("./api/routes/analyze"));
 app.use("/report", require("./api/routes/report"));
 app.use("/user", require("./api/routes/user"));
+app.use("/stock", require("./api/routes/stock"));
 
 //This function will give a 404 response if an undefined API endpoint is fired
 app.use((req, res, next) => {
