@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
     {
       companyName: { type: String },
       symbol: { type: String },
+      mailSent: { type: Boolean, default: false },
     },
   ],
 });
