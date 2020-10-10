@@ -55,7 +55,12 @@ router.post("/", async (req, res) => {
             companies[i]["Company Name"].includes(entitiesArr[j].text) ||
             companies[i]["Symbol"].includes(entitiesArr[j].text)
           ) {
-            companyArr.push(companies[i]);
+            let obj = {};
+            obj["Company Name"] = companies[i]["Company Name"];
+            obj["Symbol"] = companies[i]["Symbol"];
+            obj["text"] = entities[j].text;
+            obj["sentiment"] = entities[j].sentiment;
+            companyArr.push(obj);
           }
         }
       }
