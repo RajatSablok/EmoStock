@@ -5,6 +5,12 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String },
   password: { type: String },
+  tracking: [
+    {
+      companyName: { type: String },
+      symbol: { type: String },
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", userSchema);
