@@ -4,6 +4,8 @@ const { IamAuthenticator } = require("ibm-watson/auth");
 
 require("dotenv").config();
 
+const countries = require("../../assets/companies.json");
+
 const router = express.Router();
 
 const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
@@ -17,6 +19,10 @@ const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
 //Analyze a news
 router.post("/", async (req, res) => {
   const { title, news, imageURL, date, time, inshortslink } = req.body;
+  let companyArr = [];
+  let entitiesArr = [];
+
+  //Define parameters for analyzing news
   const analyzeParams = {
     url: inshortslink,
     features: {
@@ -26,22 +32,38 @@ router.post("/", async (req, res) => {
         relevance: true,
         count: true,
       },
-      keywords: {
-        sentiment: true,
-        emotion: true,
-        limit: 3,
-      },
     },
   };
 
+  //Analyze news
   naturalLanguageUnderstanding
     .analyze(analyzeParams)
     .then((analysisResults) => {
       let entities = analysisResults.result.entities;
-      let keywords = analysisResults.result.keywords;
+
+      //Store entities of type company in entititesArr
+      for (i in entities) {
+        if (entities[i].type == "Company") {
+          entitiesArr.push(entities[i]);
+        }
+      }
+
+      //Map company name with stock
+      for (i in countries) {
+        for (j in entitiesArr) {
+          if (
+            countries[i]["Company Name"].includes(entitiesArr[j].text) ||
+            countries[i]["Symbol"].includes(entitiesArr[j].text)
+          ) {
+            companyArr.push(countries[i]);
+          }
+        }
+      }
+
+      //Define result object
       let result = {
-        entities,
-        keywords,
+        entities: entitiesArr,
+        companyArr,
         title,
         news,
         imageURL,
@@ -49,6 +71,7 @@ router.post("/", async (req, res) => {
         time,
         inshortslink,
       };
+
       res.status(200).json(result);
     })
     .catch((err) => {

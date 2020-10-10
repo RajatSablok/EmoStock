@@ -93,8 +93,8 @@ router.get("/all", (req, res, next) => {
         news: inshortsData,
       });
     } else {
-      res.json({
-        error: err,
+      res.status(500).json({
+        error: error,
       });
     }
   });
