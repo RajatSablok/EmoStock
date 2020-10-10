@@ -1,4 +1,6 @@
 const express = require("express");
+const request = require("request");
+const cheerio = require("cheerio");
 const NaturalLanguageUnderstandingV1 = require("ibm-watson/natural-language-understanding/v1");
 const { IamAuthenticator } = require("ibm-watson/auth");
 
@@ -67,6 +69,26 @@ router.get("/user/tracking", checkAuth, async (req, res, next) => {
         error: err.toString(),
       });
     });
+});
+
+//Get info of a particular stock
+router.get("/info", async (req, res) => {
+  const { query } = req.query;
+  const suggestionUrl = `https://www.moneycontrol.com/mccode/common/autosuggestion_solr.php?classic=true&query=${query}&type=1&format=json&callback=suggest1`;
+  var data = {};
+  request(suggestionUrl, (error, response, html) => {
+    if (!error && response.statusCode == 200) {
+      data = response.body
+        .replace("suggest1", "")
+        .replace(")", "")
+        .replace("(", "");
+      let sc_id = JSON.parse(data)[0].sc_id;
+      let url = `https://priceapi.moneycontrol.com/pricefeed/nse/equitycash/${sc_id}`;
+      request(url, (err, result, htmll) => {
+        res.status(200).json(JSON.parse(htmll));
+      });
+    }
+  });
 });
 
 module.exports = router;
