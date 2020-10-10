@@ -32,6 +32,13 @@ router.post("/", async (req, res) => {
         errormsg: err.toString(),
       });
     }
+
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Please select file",
+      });
+    }
+
     //Define the filepath for reading file
     const filepath =
       path.dirname(__dirname).replace("\\api", "").replace("/api", "") +
