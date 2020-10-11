@@ -1,7 +1,7 @@
 # EmoStock
 
 > <Subtitle>
-> Your one stop solution to profitable stocks :chart_with_upwards_trend:
+> Your one-stop solution to profitable stocks :chart_with_upwards_trend:
 
 ---
 
@@ -12,6 +12,8 @@
 - Get latest business news
 - Relate news with stocks and find the best stocks to invest in
 - Analyze financial reports of companies
+- Easily track stocks of varous companies; get notified when they are predicted to rise or fall
+- Get information for any stock listed in NSE or BSE
 
 ## Instructions to run
 
@@ -23,13 +25,17 @@ $ npm install
 
 These variables should reside as key value pairs in a file called `.env`.
 
-|               Variable Name               |        Description         |         Get it from         |
-| :---------------------------------------: | :------------------------: | :-------------------------: |
-|   NATURAL_LANGUAGE_UNDERSTANDING_APIKEY   |     IBM Watson API KEY     |   https://cloud.ibm.com/    |
-| NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY |   IBM Watson IAM API KEY   |   https://cloud.ibm.com/    |
-|    NATURAL_LANGUAGE_UNDERSTANDING_URL     | IBM Watson NLU Service URL |   https://cloud.ibm.com/    |
-| NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE  |  IBM Watson NLU Auth Type  |   https://cloud.ibm.com/    |
-|                NEWS_APIKEY                |      NEWSAPI API KEY       | https://newsapi.org/account |
+|               Variable Name               |                Description                |          Get it from          |
+| :---------------------------------------: | :---------------------------------------: | :---------------------------: |
+|   NATURAL_LANGUAGE_UNDERSTANDING_APIKEY   |            IBM Watson API KEY             |    https://cloud.ibm.com/     |
+| NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY |          IBM Watson IAM API KEY           |    https://cloud.ibm.com/     |
+|    NATURAL_LANGUAGE_UNDERSTANDING_URL     |        IBM Watson NLU Service URL         |    https://cloud.ibm.com/     |
+| NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE  |         IBM Watson NLU Auth Type          |    https://cloud.ibm.com/     |
+|                NEWS_APIKEY                |              NEWSAPI API KEY              |  https://newsapi.org/account  |
+|                   DBURI                   |    URI for connecting to MongoDB Atlas    |  https://cloud.mongodb.com/   |
+|                JWT_SECRET                 |              JWT Secret Key               | You can generate your own key |
+|             SENDGRID_API_KEY              |             Sendgrid API KEY              |   https://app.sendgrid.com/   |
+|              SENDGRID_EMAIL               | Email for sending out mails from Sendgrid |   https://app.sendgrid.com/   |
 
 ```
 $ npm start
@@ -38,10 +44,6 @@ $ npm start
 ## Contributors
 
 - <a href="https://github.com/RajatSablok">Rajat Sablok</a>
-- <a href="https://github.com/TheG0dfath3r">Kunal Singh</a>
-- <a href="https://github.com/PriyankVIT">Priyank Kaushik</a>
-- <a href="https://github.com/anmolpant">Anmol Pant</a>
-- <a href="https://github.com/syedayazsa">Syed Ayaz</a>
 
 ## License
 
