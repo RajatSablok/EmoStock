@@ -170,16 +170,16 @@ var j = schedule.scheduleJob("0 0 * * * *", async function (fireDate) {
               };
               // console.log(users[i].name, companyArr[k].companyName, status);
 
-              // await sgMail
-              //   .send(msg)
-              //   .then(async () => {
-              //     // console.log("mail sent");
-              //     users[i].tracking[j].mailSent = true;
-              //     await users[i].save();
-              //   })
-              //   .catch((err) => {
-              //     console.log(err.toString());
-              //   });
+              await sgMail
+                .send(msg)
+                .then(async () => {
+                  // console.log("mail sent");
+                  users[i].tracking[j].mailSent = true;
+                  await users[i].save();
+                })
+                .catch((err) => {
+                  console.log(err.toString());
+                });
             }
           }
         }
