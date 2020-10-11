@@ -12,6 +12,7 @@ require("dotenv").config();
 
 const User = require("./api/models/user");
 const companies = require("./assets/companies.json");
+const EmailTemplates = require("./assets/emails");
 
 const app = express();
 
@@ -91,8 +92,8 @@ const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
 });
 
 // Schedule a job that runs every hour for sending tracking mails
-var j = schedule.scheduleJob("0 55 4 * * *", async function (fireDate) {
-  // console.log("This job will run every hour");
+var j = schedule.scheduleJob("0 0 * * * *", async function (fireDate) {
+  console.log("This job will run every hour");
 
   let entitiesArr = [];
   let companyArr = [];
@@ -131,7 +132,7 @@ var j = schedule.scheduleJob("0 55 4 * * *", async function (fireDate) {
           }
         }
       }
-      console.log(companyArr);
+      // console.log(companyArr);
     })
     .catch((err) => {
       console.log(err.toString());
@@ -160,28 +161,25 @@ var j = schedule.scheduleJob("0 55 4 * * *", async function (fireDate) {
                   name: "EmoStock",
                 },
                 subject: `Stock update: ${companyArr[k].companyName}`,
-                text: `Hi ${users[i].name},
-
-You requested to track ${companyArr[k].companyName} on EmoStock
-
-The stock price of ${companyArr[k].companyName} are expected to ${status} based on current news
-
-For more information, visit https://emostocks.vercel.app/
-
-Regards,
-Team EmoStock`,
-                // html: EmailTemplates.VERIFY_EMAIL(result5),
+                text: ` `,
+                html: EmailTemplates.tracker(
+                  users[i].name,
+                  companyArr[k].companyName,
+                  status
+                ),
               };
+              // console.log(users[i].name, companyArr[k].companyName, status);
 
-              await sgMail
-                .send(msg)
-                .then(async () => {
-                  users[i].tracking[j].mailSent = true;
-                  await users[i].save();
-                })
-                .catch((err) => {
-                  console.log(err.toString());
-                });
+              // await sgMail
+              //   .send(msg)
+              //   .then(async () => {
+              //     // console.log("mail sent");
+              //     users[i].tracking[j].mailSent = true;
+              //     await users[i].save();
+              //   })
+              //   .catch((err) => {
+              //     console.log(err.toString());
+              //   });
             }
           }
         }
