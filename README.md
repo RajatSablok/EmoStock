@@ -5,15 +5,15 @@
 
 ---
 
-[![DOCS](https://img.shields.io/badge/Documentation-see%20docs-green?style=flat-square&logo=appveyor)](https://documenter.getpostman.com/view/12931122/TVRkYSPq)
+[![DOCS](https://img.shields.io/badge/Documentation-see%20docs-green?style=flat-square&logo=postman)](https://documenter.getpostman.com/view/12931122/TVRkYSPq) [![UI ](https://img.shields.io/badge/User%20Interface-Link%20to%20UI-orange?style=flat-square&logo=react)](https://emostocks.vercel.app/) [![DEMO ](https://img.shields.io/badge/Demo-Checkout-red?style=flat-square&logo=youtube)](https://drive.google.com/file/d/1Mh_BbRr8N9V4rqosm_4RSLgKpHlPoOV6/view) [![PITCH ](https://img.shields.io/badge/Pitch-Checkout-purple?style=flat-square&logo=youtube)](https://drive.google.com/file/d/13GFTXsG0wceBYOspYwsbwuUEVpZswrhs/view) [![FRONTEND_REPO ](https://img.shields.io/badge/Frontend%20Repo-Checkout-black?style=flat-square&logo=github)](https://github.com/TheG0dfath3r/emostocks/tree/master)
 
 ## Features
 
 - Get latest business news
 - Relate news with stocks and find the best stocks to invest in
-- Analyze financial reports of companies
+- Get all stocks that have been covered in recent headlines
 - Easily track stocks of varous companies; get notified when they are predicted to rise or fall
-- Get information for any stock listed in NSE or BSE
+- Analyze financial reports of companies
 
 ## Instructions to run
 
