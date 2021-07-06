@@ -1,4 +1,4 @@
-# Stock Market Prediction Using Media Trends
+# EmoStock
 
 > <Subtitle>
 > Your one-stop solution to profitable stocks :chart_with_upwards_trend:
